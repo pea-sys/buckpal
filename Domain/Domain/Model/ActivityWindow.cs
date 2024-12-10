@@ -15,16 +15,16 @@ namespace Application.Domain.Model
         public Money CalculateBalance(Account.AccountId accountId)
         {
             var depositBalance = activities
-            .Where(a => a.TargetAccountId == accountId)
-            .Select(a => a.Money)
-            .Aggregate(Money.ZERO, (curr, next) => curr.Add(next));
+                .Where(a => a.TargetAccountId == accountId)
+                .Select(a => a.Money)
+                .Aggregate(Money.ZERO, (curr, next) => curr.Add(next));
 
             var withdrawalBalance =
-            (from a in activities
-             where a.SourceAccountId == accountId
-             select a.Money)
-            .Aggregate(Money.ZERO, (curr, next) => curr.Add(next));
-
+                (from a in activities
+                 where a.SourceAccountId == accountId
+                 select a.Money)
+                 .Aggregate(Money.ZERO, (curr, next) => curr.Add(next));
+            
             return depositBalance.Add(withdrawalBalance.Negate());
         }
 

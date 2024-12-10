@@ -1,5 +1,4 @@
 ﻿using Application.Domain.Model;
-using static Application.Domain.Model.Account;
 
 namespace Application.Test.Domain.Model
 {
@@ -10,9 +9,9 @@ namespace Application.Test.Domain.Model
         {
             ActivityWindow window = new([
                 ActivityTestData.DefaultActivity().WithTimestamp(StartDate()).Build(),
-            ActivityTestData.DefaultActivity().WithTimestamp(InBetweenDate()).Build(),
-            ActivityTestData.DefaultActivity().WithTimestamp(EndDate()).Build()
-            ]);
+                ActivityTestData.DefaultActivity().WithTimestamp(InBetweenDate()).Build(),
+                ActivityTestData.DefaultActivity().WithTimestamp(EndDate()).Build()
+                ]);
             Assert.Equal(StartDate(), window.GetStartTimestamp());
         }
 
@@ -21,32 +20,32 @@ namespace Application.Test.Domain.Model
         {
             ActivityWindow window = new([
                 ActivityTestData.DefaultActivity().WithTimestamp(StartDate()).Build(),
-            ActivityTestData.DefaultActivity().WithTimestamp(InBetweenDate()).Build(),
-            ActivityTestData.DefaultActivity().WithTimestamp(EndDate()).Build()
-            ]);
+                ActivityTestData.DefaultActivity().WithTimestamp(InBetweenDate()).Build(),
+                ActivityTestData.DefaultActivity().WithTimestamp(EndDate()).Build()
+                ]);
             Assert.Equal(EndDate(), window.GetEndTimestamp());
         }
 
         [Fact]
         public void CalculatesBalance()
         {
-            AccountId account1 = new(1);
-            AccountId account2 = new(2);
+            Account.AccountId account1 = new(1);
+            Account.AccountId account2 = new(2);
             ActivityWindow window = new([
                 ActivityTestData.DefaultActivity()
                 .WithSourceAccount(account1)
                 .WithTargetAccount(account2)
                 .WithMoney(Money.Of(999))
                 .Build(),
-            ActivityTestData.DefaultActivity()
+                ActivityTestData.DefaultActivity()
                 .WithSourceAccount(account1)
                 .WithTargetAccount(account2)
                 .WithMoney(Money.Of(1))
                 .Build(),
-            ActivityTestData.DefaultActivity()
-                .WithSourceAccount(account2)
-                .WithTargetAccount(account1)
-                .WithMoney(Money.Of(500))
+                ActivityTestData.DefaultActivity()
+            .WithSourceAccount(account2)
+            .WithTargetAccount(account1)
+            .WithMoney(Money.Of(500))
             .Build()
             ]);
             Assert.Equal(Money.Of(-500), window.CalculateBalance(account1));
